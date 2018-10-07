@@ -2,8 +2,11 @@
 
 namespace ilib {
 
+template<typename T>
+class ExternalFunction;
+
 template<typename R, typename... Args>
-class ExternalFunction
+class ExternalFunction<R(Args...)>
 {
 public:
     R operator()(Args... args)
@@ -20,8 +23,11 @@ protected:
     }
 };
 
+template<typename T>
+class SigScanFunction;
+
 template<typename R, typename... Args>
-class SigScanFunction : public ExternalFunction<R, Args...>
+class SigScanFunction<R(Args...)> : public ExternalFunction<R(Args...)>
 {
 public:
     SigScanFunction(const char* moduleName, const char* signature, const char* mask)
@@ -42,14 +48,17 @@ public:
     }
 };
 
-template<typename T, typename... Args>
-class OffsetFunction : public ExternalFunction<T, Args...>
+template<typename T>
+class OffsetFunction;
+
+template<class R, class... Args>
+class OffsetFunction<R(Args...)> : public ExternalFunction<R(Args...)>
 {
 public:
     OffsetFunction(const char* moduleName, uint64_t offsetFromImageBase)
     {
         auto& resolver = ModuleFuncResolver::GetResolver(moduleName);
-        SetFunctionPointer(resolver.GetFromRVA(offsetFromImageBase));
+        this->SetFunctionPointer(resolver.GetFromRVA(offsetFromImageBase));
     }
 };
 
