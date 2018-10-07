@@ -8,20 +8,17 @@ inline MH_STATUS MH_CreateHookEx(LPVOID pTarget, LPVOID pDetour, T** ppOriginal)
     return MH_CreateHook(pTarget, pDetour, reinterpret_cast<LPVOID*>(ppOriginal));
 }
 
-template<template<typename> class T, typename U>
-class HookedFunction;
-
-template<template<typename> class Base, typename R, typename... Args>
-class HookedFunction<Base, R(Args...)> : public Base<R(Args...)>
+template<class Base>
+class HookedFunction : public Base
 {
 private:
     bool m_hooked = false;
-    R(*m_hookedFunc)(Args...) = nullptr;
+    typename Base::FuncPtrType m_hookedFunc;
 
 public:
-    using Base<R(Args...)>::Base;
+    using Base::Base;
 
-    void Hook(R(*detourFunc)(Args...))
+    void Hook(typename Base::FuncPtrType detourFunc)
     {
         if (m_hooked)
         {

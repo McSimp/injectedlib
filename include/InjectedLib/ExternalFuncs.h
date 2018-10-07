@@ -9,6 +9,8 @@ template<typename R, typename... Args>
 class ExternalFunction<R(Args...)>
 {
 public:
+    typedef typename std::add_pointer<R(Args...)>::type FuncPtrType;
+
     R operator()(Args... args)
     {
         return m_func(args...);
