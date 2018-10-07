@@ -210,6 +210,9 @@
     <ClInclude Include="..\include\InjectedLib\ExternalFuncs.h">
       <Filter>Header Files\InjectedLib</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\InjectedLib\Hooking.h">
+      <Filter>Header Files\InjectedLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\stdafx.cpp">

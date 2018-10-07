@@ -13,10 +13,12 @@
 #undef min
 #endif
 #include <spdlog/fmt/bundled/printf.h>
+#include "../../thirdparty/minhook/include/MinHook.h"
 #include "Console.h"
 #include "Util.h"
 #include "ModuleFuncResolver.h"
 #include "ExternalFuncs.h"
+#include "Hooking.h"
 
 namespace ilib {
 

@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\InjectedLib\Console.h" />
     <ClInclude Include="..\include\InjectedLib\ExternalFuncs.h" />
+    <ClInclude Include="..\include\InjectedLib\Hooking.h" />
     <ClInclude Include="..\include\InjectedLib\InjectedLib.h" />
     <ClInclude Include="..\include\InjectedLib\ModuleFuncResolver.h" />
     <ClInclude Include="..\include\InjectedLib\Util.h" />
