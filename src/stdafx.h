@@ -8,7 +8,14 @@
 #include "targetver.h"
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+#include <Windows.h>
+#include <TlHelp32.h>
 
+#include <InjectedLib/InjectedLib.h>
 
+#include <codecvt>
+#include <sstream>
+#include <fstream>
 
-// reference additional headers your program requires here
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/wincolor_sink.h>

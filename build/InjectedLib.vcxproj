@@ -90,6 +90,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\include;..\thirdparty\minhook\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -104,6 +106,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\include;..\thirdparty\minhook\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -120,6 +124,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\include;..\thirdparty\minhook\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,6 +133,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -138,6 +148,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\include;..\thirdparty\minhook\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,18 +159,101 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\InjectedLib\Console.h" />
+    <ClInclude Include="..\include\InjectedLib\ExternalFuncs.h" />
+    <ClInclude Include="..\include\InjectedLib\InjectedLib.h" />
+    <ClInclude Include="..\include\InjectedLib\ModuleFuncResolver.h" />
+    <ClInclude Include="..\include\InjectedLib\Util.h" />
+    <ClInclude Include="..\include\spdlog\async.h" />
+    <ClInclude Include="..\include\spdlog\async_logger.h" />
+    <ClInclude Include="..\include\spdlog\common.h" />
+    <ClInclude Include="..\include\spdlog\details\async_logger_impl.h" />
+    <ClInclude Include="..\include\spdlog\details\circular_q.h" />
+    <ClInclude Include="..\include\spdlog\details\console_globals.h" />
+    <ClInclude Include="..\include\spdlog\details\file_helper.h" />
+    <ClInclude Include="..\include\spdlog\details\fmt_helper.h" />
+    <ClInclude Include="..\include\spdlog\details\logger_impl.h" />
+    <ClInclude Include="..\include\spdlog\details\log_msg.h" />
+    <ClInclude Include="..\include\spdlog\details\mpmc_blocking_q.h" />
+    <ClInclude Include="..\include\spdlog\details\null_mutex.h" />
+    <ClInclude Include="..\include\spdlog\details\os.h" />
+    <ClInclude Include="..\include\spdlog\details\pattern_formatter.h" />
+    <ClInclude Include="..\include\spdlog\details\periodic_worker.h" />
+    <ClInclude Include="..\include\spdlog\details\registry.h" />
+    <ClInclude Include="..\include\spdlog\details\thread_pool.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bin_to_hex.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bundled\colors.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bundled\core.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bundled\format-inl.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bundled\format.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bundled\ostream.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bundled\posix.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bundled\printf.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bundled\ranges.h" />
+    <ClInclude Include="..\include\spdlog\fmt\bundled\time.h" />
+    <ClInclude Include="..\include\spdlog\fmt\fmt.h" />
+    <ClInclude Include="..\include\spdlog\fmt\ostr.h" />
+    <ClInclude Include="..\include\spdlog\formatter.h" />
+    <ClInclude Include="..\include\spdlog\logger.h" />
+    <ClInclude Include="..\include\spdlog\sinks\android_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\ansicolor_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\base_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\basic_file_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\daily_file_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\dist_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\msvc_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\null_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\ostream_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\rotating_file_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\stdout_color_sinks.h" />
+    <ClInclude Include="..\include\spdlog\sinks\stdout_sinks.h" />
+    <ClInclude Include="..\include\spdlog\sinks\syslog_sink.h" />
+    <ClInclude Include="..\include\spdlog\sinks\wincolor_sink.h" />
+    <ClInclude Include="..\include\spdlog\spdlog.h" />
+    <ClInclude Include="..\include\spdlog\tweakme.h" />
+    <ClInclude Include="..\include\spdlog\version.h" />
     <ClInclude Include="..\src\stdafx.h" />
     <ClInclude Include="..\src\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Console.cpp" />
+    <ClCompile Include="..\src\InjectedLib.cpp" />
+    <ClCompile Include="..\src\ModuleFuncResolver.cpp" />
     <ClCompile Include="..\src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\src\Util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\thirdparty\minhook\build\VC15\lib\Debug\libMinHook.x64.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="..\thirdparty\minhook\build\VC15\lib\Debug\libMinHook.x86.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="..\thirdparty\minhook\build\VC15\lib\Release\libMinHook.x64.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="..\thirdparty\minhook\build\VC15\lib\Release\libMinHook.x86.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Library>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
