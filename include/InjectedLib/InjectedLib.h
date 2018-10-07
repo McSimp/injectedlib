@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef _DEBUG
+#define SPDLOG_TRACE_ON
+#endif
+#define SPDLOG_DEBUG_ON
+
 #include <spdlog/spdlog.h>
 #ifdef max
 #undef max
