@@ -1,35 +1,33 @@
 #pragma once
 
+#include <functional>
+
 namespace ilib {
 
-template<typename T>
-class ExternalFunction;
 
-template<typename R, typename... Args>
-class ExternalFunction<R(Args...)>
+template<typename T>
+class ExternalFunction
 {
 public:
-    typedef typename std::add_pointer<R(Args...)>::type FuncPtrType;
+    typedef T FuncType;
 
-    R operator()(Args... args)
+    template<typename... Args>
+    auto operator()(Args... args) const
     {
-        return m_func(args...);
+        return m_stdFunc(std::forward<Args>(args)...);
     }
 
 protected:
-    R(*m_func)(Args...) = nullptr;
-
     void SetFunctionPointer(void* ptr)
     {
-        m_func = reinterpret_cast<R(*)(Args...)>(ptr);
+        m_stdFunc = reinterpret_cast<typename std::add_pointer<T>::type>(ptr);
     }
+
+    std::function<T> m_stdFunc;
 };
 
 template<typename T>
-class SigScanFunction;
-
-template<typename R, typename... Args>
-class SigScanFunction<R(Args...)> : public ExternalFunction<R(Args...)>
+class SigScanFunction : public ExternalFunction<T>
 {
 public:
     SigScanFunction(const char* moduleName, const char* signature, const char* mask)
@@ -51,10 +49,7 @@ public:
 };
 
 template<typename T>
-class OffsetFunction;
-
-template<class R, class... Args>
-class OffsetFunction<R(Args...)> : public ExternalFunction<R(Args...)>
+class OffsetFunction : public ExternalFunction<T>
 {
 public:
     OffsetFunction(const char* moduleName, uint64_t offsetFromImageBase)
