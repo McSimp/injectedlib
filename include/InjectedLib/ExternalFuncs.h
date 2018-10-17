@@ -4,30 +4,85 @@
 
 namespace ilib {
 
+enum CallingConvention
+{
+    _stdcall_, _cdecl_, _thiscall_, _fastcall_
+};
 
-template<typename T>
-class ExternalFunction
+template<typename T, CallingConvention Call>
+class FuncPtr;
+
+template<typename R, typename... Args>
+class FuncPtr<R(*)(Args...), _cdecl_>
+{
+protected:
+    static const CallingConvention CallingConvention = _cdecl_;
+    typedef R(__cdecl *FuncPtrType)(Args...);
+    FuncPtrType m_func;
+};
+
+template<typename R, typename... Args>
+class FuncPtr<R(*)(Args...), _stdcall_>
+{
+protected:
+    static const CallingConvention CallingConvention = _stdcall_;
+    typedef R(__stdcall *FuncPtrType)(Args...);
+    FuncPtrType m_func;
+};
+
+template<typename R, typename... Args>
+class FuncPtr<R(*)(Args...), _fastcall_>
+{
+protected:
+    static const CallingConvention CallingConvention = _fastcall_;
+    typedef R(__stdcall *FuncPtrType)(Args...);
+    FuncPtrType m_func;
+};
+
+template<typename R, typename Arg1, typename... Args>
+class FuncPtr<R(*)(Arg1, Args...), _thiscall_>
+{
+protected:
+    static const CallingConvention CallingConvention = _thiscall_;
+    typedef R(__thiscall *FuncPtrType)(Arg1, Args...);
+    typedef R(__fastcall *FastCallPtrType)(Arg1, void*, Args...);
+    FuncPtrType m_func;
+};
+
+template<typename T, CallingConvention Call>
+class BaseExternalFunction;
+
+template<typename R, CallingConvention Call, typename... Args>
+class BaseExternalFunction<R(*)(Args...), Call> : public FuncPtr<R(*)(Args...), Call>
 {
 public:
-    typedef T FuncType;
-
-    template<typename... Args>
     auto operator()(Args... args) const
     {
-        return m_stdFunc(std::forward<Args>(args)...);
+        return this->m_func(std::forward<Args>(args)...);
     }
 
 protected:
     void SetFunctionPointer(void* ptr)
     {
-        m_stdFunc = reinterpret_cast<typename std::add_pointer<T>::type>(ptr);
+        this->m_func = reinterpret_cast<decltype(this->m_func)>(ptr);
     }
-
-    std::function<T> m_stdFunc;
 };
 
-template<typename T>
-class SigScanFunction : public ExternalFunction<T>
+template<typename T, CallingConvention Call>
+class ExternalFunction;
+
+template<typename R, CallingConvention Call, class C, typename... Args>
+class ExternalFunction<R(C::*)(Args...), Call> : public BaseExternalFunction<R(*)(Args...), Call>
+{
+};
+
+template<typename R, CallingConvention Call, typename... Args>
+class ExternalFunction<R(*)(Args...), Call> : public BaseExternalFunction<R(*)(Args...), Call>
+{
+};
+
+template<typename T, CallingConvention Call = _cdecl_>
+class SigScanFunction : public ExternalFunction<T, Call>
 {
 public:
     SigScanFunction(const char* moduleName, const char* signature, const char* mask)
@@ -48,8 +103,8 @@ public:
     }
 };
 
-template<typename T>
-class OffsetFunction : public ExternalFunction<T>
+template<typename T, CallingConvention Call = _cdecl_>
+class OffsetFunction : public ExternalFunction<T, Call>
 {
 public:
     OffsetFunction(const char* moduleName, uint64_t offsetFromImageBase)
