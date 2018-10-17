@@ -50,11 +50,13 @@ void Initialize(const std::string& logFilePath, bool createConsoleWindow)
     }
     
     SetupLogger(logFilePath);
+    MH_Initialize();
 }
 
 void Shutdown()
 {
     g_console.reset();
+    MH_Uninitialize();
 }
 
 }
